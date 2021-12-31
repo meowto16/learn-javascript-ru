@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Check devtools</title>
+  <style>
+    .hidden {
+        display: none;
+    }
+
+    .form {
+        max-width: 400px;
+    }
+
+    .form-control {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        display: flex;
+    }
+
+    .form-label span {
+        margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+<form class="form js-form">
+  <div class="form-control">
+    <label class="form-label">
+      <span>First number &nbsp;</span>
+      <input placeholder="Enter first number" type="number" name="first">
+    </label>
+  </div>
+  <div class="form-control">
+    <label class="form-label">
+      <span>Second number &nbsp;</span>
+      <input placeholder="Enter second number" type="number" name="second">
+    </label>
+  </div>
+  <br />
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<p class="hidden js-result-container">Output is: <span class="js-result"></span></p>
+<script src="./index.js"></script>
+</body>
+</html>
