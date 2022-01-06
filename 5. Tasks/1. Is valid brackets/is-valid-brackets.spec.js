@@ -9,22 +9,35 @@ describe('isValidBrackets function', () => {
   })
   
   it('Should throw error if expression is not string', () => {
-    expect(isValidBrackets(undefined)).toThrow()
+    expect(() => isValidBrackets(undefined)).toThrow()
   })
   
   describe('Should throw error if groups are not provided', () => {
     it('Should throw error if groups is empty array', () => {
-      expect(isValidBrackets('([])', [])).toThrow()
+      expect(() => isValidBrackets('([])', [])).toThrow()
     })
     it('Should throw error if groups is not array', () => {
-      expect(isValidBrackets('([])', undefined)).toThrow()
-      expect(isValidBrackets('([])', {})).toThrow()
-      expect(isValidBrackets('([])', '')).toThrow()
-      expect(isValidBrackets('([])', 0)).toThrow()
-      expect(isValidBrackets('([])', NaN)).toThrow()
-      expect(isValidBrackets('([])', null)).toThrow()
+      expect(() => isValidBrackets('([])', undefined)).toThrow()
+      expect(() => isValidBrackets('([])', {})).toThrow()
+      expect(() => isValidBrackets('([])', '')).toThrow()
+      expect(() => isValidBrackets('([])', 0)).toThrow()
+      expect(() => isValidBrackets('([])', NaN)).toThrow()
+      expect(() => isValidBrackets('([])', null)).toThrow()
     })
+    it('Should throw error if groups is not array of tuple-strings', () => {
+      expect(() => isValidBrackets('([])', ['{{}', '[]'])).toThrow()
+      expect(() => isValidBrackets('([])', ['[', '()'])).toThrow()
+    })
+  })
+  
+  describe('Should throw error if non-string provided', () => {
+    const expressions = [undefined, null, {}, [], 0, 1, NaN, Infinity, -Infinity, Symbol('123')]
     
+    expressions.forEach(expression => {
+      it(`Should throw error for expression ${JSON.stringify(expression)}`, () => {
+        expect(() => isValidBrackets(expression, groups)).toThrow()
+      })
+    })
   })
   
   describe('Should throw error if met unknown char in expression', () => {
@@ -32,17 +45,7 @@ describe('isValidBrackets function', () => {
     
     expressions.forEach(expression => {
       it(`Should throw error for expression ${expression}`, () => {
-        expect(isValidBrackets(expression, groups)).toThrow()
-      })
-    })
-  })
-  
-  describe('Should return false if non-string provided', () => {
-    const expressions = [undefined, null, {}, [], 0, 1, NaN, Infinity, -Infinity, Symbol('123')]
-    
-    expressions.forEach(expression => {
-      it(`Should return false for expression ${JSON.stringify(expression)}`, () => {
-        check(expression, false)
+        expect(() => isValidBrackets(expression, groups)).toThrow()
       })
     })
   })
@@ -94,6 +97,9 @@ describe('isValidBrackets function', () => {
       ['[]]', false],
       [')', false],
       ['[[', false],
+      ['}{', false],
+      [')(', false],
+      ['][', false]
     ]
     
     expressions.forEach(([expression, expected]) => {
@@ -104,7 +110,7 @@ describe('isValidBrackets function', () => {
   })
   
   describe('Random cases', () => {
-    const RANDOM_CASES_COUNT = 20
+    const RANDOM_CASES_COUNT = 100
 
     for (let i = 0; i < RANDOM_CASES_COUNT; i++) {
       const expression = createRandomBracketsExpression(groups)
