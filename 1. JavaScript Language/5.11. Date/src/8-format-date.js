@@ -14,12 +14,15 @@ function formatDate(dateInstance) {
   const now = Date.now()
   const diff = now - dateInstance.getTime()
   
-  if (diff < 1000) return 'Прямо сейчас'
+  if (diff < 1000) return 'прямо сейчас'
   if (diff < 1000 * 60) return `${Math.floor(diff / 1000)} сек. назад`
   if (diff < 1000 * 60 * 60) return `${Math.floor(diff / 1000 / 60)} мин. назад`
   
-  const [dateWithoutTimezone] = date.toISOString().split('.')
-  const [date, time] = dateWithoutTimezone.split('T')
-  
-  return `${date} ${time}`
+  return new Date(dateInstance).toLocaleString('ru-RU', {
+    year: '2-digit',
+    day: 'numeric',
+    month: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  }).split(', ').join(' ')
 }
