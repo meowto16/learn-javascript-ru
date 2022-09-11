@@ -1,11 +1,11 @@
 function rectangleToSquares(width, height) {
-  if (width === height) {
-    return width;
+  while (true) {
+    if (width < height) height -= width
+    if (width > height) width -= height
+    if (width === height) break
   }
 
-  return width < height
-    ? rectangleToSquares(width, height - width)
-    : rectangleToSquares(width - height, height)
+  return width;
 }
 
 const AREA_WIDTH = 1680
