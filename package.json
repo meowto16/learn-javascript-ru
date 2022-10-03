@@ -3,17 +3,9 @@
   "version": "1.0.0",
   "description": "- В данном репозитории я стараюсь объяснить пройденную тему самостоятельно. - Необходим для самостоятельного обучения. - Материалы взяты с сайтов:   - https://learn.javascript.ru/.   - https://developer.mozilla.org/ru/docs/Web/JavaScript   - https://ru.wikipedia.org/   - https://habr.com/",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meowto16/learn-javascript-ru.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/meowto16/learn-javascript-ru/issues"
   },
   "homepage": "https://github.com/meowto16/learn-javascript-ru#readme",
   "devDependencies": {
