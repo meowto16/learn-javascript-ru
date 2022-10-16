@@ -2,15 +2,19 @@
 
 function possibilities(str) {
   const permutations = []
+  const position = str.indexOf('?')
 
-  if (str.indexOf('?') === -1) {
+  if (position === -1) {
     return [str]
   }
 
+  const first = str.slice(0, position) + '0' + str.slice(position + 1)
+  const second = str.slice(0, position) + '1' + str.slice(position + 1)
+
   permutations.push(
-    ...possibilities(str.replace('?', '0')),
-    ...possibilities(str.replace('?', '1')),
+    ...possibilities(first),
+    ...possibilities(second),
   )
 
   return permutations;
-};
+}
