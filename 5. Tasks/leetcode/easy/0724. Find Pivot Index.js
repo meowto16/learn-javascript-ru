@@ -4,11 +4,17 @@
  * @return {number}
  */
 const pivotIndex = (nums) => {
-  for (let i = 0; i < nums.length; i++) {
-    const sumLeft = nums.slice(0, i).reduce((acc, cur) => acc + cur, 0)
-    const sumRight = nums.slice(i + 1).reduce((acc, cur) => acc + cur, 0)
+  let leftSum = 0
+  let rightSum = nums.reduce((acc, cur) => acc + cur, 0)
 
-    if (sumLeft === sumRight) {
+  for (let i = 0; i < nums.length; i++) {
+    const prev = nums[i - 1] || 0
+    const current = nums[i]
+
+    leftSum += prev;
+    rightSum -= current;
+
+    if (leftSum === rightSum) {
       return i
     }
   }
