@@ -16,8 +16,8 @@ function spiralLoop(arr, callback) {
 
   const passed = new Map()
 
-  const setPassed = (i, j) => passed.set(`${i}${j}`, true)
-  const checkPassed = (i, j) => passed.get(`${i}${j}`) || false
+  const setPassed = (i, j) => passed.set(`${i}=${j}`, true)
+  const checkPassed = (i, j) => passed.get(`${i}=${j}`) || false
 
   const checkEnd = () => {
     let around
@@ -53,8 +53,6 @@ function spiralLoop(arr, callback) {
         checkPassed(i + 1, j - 1),
       ]
     }
-
-    console.log({ around, i, j, direction, arr: arr.map(row => row.join('')) })
 
     return around.some(Boolean)
   }
@@ -99,7 +97,14 @@ function spiralLoop(arr, callback) {
     if (direction === 'up') return direction = 'right'
   }
 
-  const move = (getNewPosition) => {
+  const getNewPosition = (i, j, direction) => {
+    if (direction === 'right') return [i, j + 1]
+    if (direction === 'bottom') return [i + 1, j]
+    if (direction === 'left') return [i, j - 1]
+    if (direction === 'up') return [i - 1, j]
+  }
+
+  const move = () => {
     const needEnd = checkEnd()
 
     if (needEnd) {
@@ -107,25 +112,22 @@ function spiralLoop(arr, callback) {
       return
     }
 
-    setPassed(i, j)
-    callback.call(this, i, j)
-
-    const newPosition = getNewPosition(i, j)
-    i = newPosition[0]
-    j = newPosition[1]
-
     const needDirectionChange = checkDirectionChange()
 
     if (needDirectionChange) {
       directionChange()
     }
+
+    setPassed(i, j)
+    callback.call(this, i, j)
+
+    const newPosition = getNewPosition(i, j, direction)
+    i = newPosition[0]
+    j = newPosition[1]
   }
 
   while (direction) {
-    if (direction === 'right') move((i, j) => [i, j + 1])
-    if (direction === 'bottom') move((i, j) => [i + 1, j])
-    if (direction === 'left') move((i, j) => [i, j - 1])
-    if (direction === 'up') move((i, j) => [i - 1, j])
+    move()
   }
 
   return arr
