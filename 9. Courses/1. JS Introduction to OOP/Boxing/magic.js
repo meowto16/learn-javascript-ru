@@ -3,16 +3,21 @@
 const sum = (...numbers) => numbers.reduce((acc, cur) => acc + cur, 0)
 
 function magic(...numbers) {
-  const inner = (...numbers) => {
-    const accumulated = inner.valueOf();
-    inner.valueOf = () => sum(accumulated, ...numbers);
+  const accumulated = sum(...numbers);
 
-    return inner;
+  const inner = (...numbers) => {
+    const innerAccumulated = sum(...numbers);
+    const innerClone = inner.bind(null, innerAccumulated);
+
+    innerClone.valueOf = () => innerAccumulated;
+
+    return innerClone;
   }
 
-  inner.valueOf = () => sum(...numbers);
+  const clone = inner.bind(null, accumulated);
+  clone.valueOf = () => accumulated;
 
-  return inner;
+  return clone;
 }
 
 magic.valueOf = () => 0;
