@@ -1,26 +1,12 @@
-// @ts-check
-// BEGIN (write your solution here)
-const sum = (...numbers) => numbers.reduce((acc, cur) => acc + cur, 0)
+// BEGIN
+const f = (...numbers) => {
+  const sum = numbers.reduce((acc, x) => (x + acc), 0);
+  const inner = (...rest) => f(sum, ...rest);
+  // функции - это объекты, что позволяет для "магического" метода установить свою функцию
+  inner.valueOf = () => sum; // метод вызывается при сравнении, поэтому он возвращает только результат
+  // подробнее о valueOf: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf
+  return inner;
+};
 
-function magic(...numbers) {
-  const accumulated = sum(...numbers);
-
-  const inner = (...numbers) => {
-    const innerAccumulated = sum(...numbers);
-    const innerClone = inner.bind(null, innerAccumulated);
-
-    innerClone.valueOf = () => innerAccumulated;
-
-    return innerClone;
-  }
-
-  const clone = inner.bind(null, accumulated);
-  clone.valueOf = () => accumulated;
-
-  return clone;
-}
-
-magic.valueOf = () => 0;
-
-export default magic;
+export default f;
 // END
