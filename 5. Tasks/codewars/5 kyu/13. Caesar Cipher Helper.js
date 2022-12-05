@@ -1,5 +1,3 @@
-// https://www.codewars.com/kata/526d42b6526963598d0004db
-
 class CaesarCipher {
   constructor(shift) {
     this.shift = shift;
@@ -18,7 +16,7 @@ class CaesarCipher {
 
       const code = char.toLowerCase().charCodeAt()
       const shiftedCode = this.shift + code > this.range.to
-        ? this.range.from + (this.shift + code % this.range.to)
+        ? this.range.from + ((this.shift + code) % this.range.to) - 1
         : this.shift + code
 
       return String.fromCharCode(shiftedCode).toUpperCase()
@@ -36,7 +34,7 @@ class CaesarCipher {
 
       const code = char.toLowerCase().charCodeAt()
       const shiftedCode = code - this.shift < this.range.from
-        ? this.range.to - (this.range.from % (code - this.shift))
+        ? this.range.to - (this.range.from % (code - this.shift) - 1)
         : code - this.shift
 
       return String.fromCharCode(shiftedCode).toUpperCase()
