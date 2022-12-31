@@ -1,39 +1,12 @@
-function removeParentheses(sentence){
-  const OPEN_TOKEN = '('
-  const CLOSE_TOKEN = ')'
-  const pairs = []
-
+function removeParentheses(sentence) {
   let depth = 0
-  let indexesByDepth = {}
+  let result = ''
 
-  for (let i = 0; i < sentence.length; i++) {
-    const char = sentence[i]
-
-    if (char === OPEN_TOKEN) {
-      depth++;
-      indexesByDepth[depth] = i;
-    }
-
-    if (char === CLOSE_TOKEN && depth > 0) {
-      const start = indexesByDepth[depth]
-      const end = i;
-
-      if (start >= 0 && end >= 0) {
-        const pair = [start, end];
-        pairs.push(pair)
-      }
-
-      depth--;
-    }
+  for (const char of sentence) {
+    if (char === '(') depth++;
+    if (char === ')') depth--;
+    if (depth === 0 && char !== ')' && char !== '(') result += char;
   }
 
-  return sentence
-    .split('')
-    .map((char, idx) => {
-      const needToDelete = pairs.some(([start, end]) => idx >= start && idx <= end)
-
-      return needToDelete ? null : char
-    })
-    .filter(Boolean)
-    .join('')
+  return result
 }
