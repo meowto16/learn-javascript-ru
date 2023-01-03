@@ -49,6 +49,7 @@ function query() {
       const state = this[builder]
 
       let collection = state.from || []
+      let groupedTree = {}
       let grouped = []
 
       if (state.where.length) {
@@ -59,23 +60,34 @@ function query() {
         })
       }
 
+      if (state.select) {
+        collection = collection.map(state.select)
+      }
+
       if (state.groupBy?.length) {
-        const groupBy = (acc, row, defineKeyCallback) => {
-          const key = defineKeyCallback.call(this, row)
-          if (!acc[key]) acc[key] = []
+        const getKey = state.groupBy[0]
 
-          acc[key].push(row)
+        for (const item of collection) {
+          const keys = state.groupBy.map(getKey => getKey(item))
 
-          return acc
+          let treeItem = groupedTree
+
+          for (let i = 0; i < keys.length; i++) {
+            const isLast = i === keys.length - 1
+            const key = keys[i]
+
+            treeItem[key] = treeItem[key] || (isLast ? [] : {})
+            treeItem = treeItem[key]
+
+            if (isLast) {
+              treeItem.push(item)
+            }
+          }
         }
+      }
 
-        grouped = collection.reduce((acc, row) => groupBy(acc, row, state.groupBy[0]), {})
 
-        if (state.select) {
-          collection = collection.map(state.select)
-        }
-
-        return collection
-      },
-    }
+      return grouped.length ? grouped : collection
+    },
   }
+}
